@@ -7,15 +7,11 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMessageBox, QWidget, QTextEdit
 import time
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
 
 converter = CurrencyConverter()
 
-s = Service('D:\work\buff163-parcer-main-2\chromedriver.exe')
-browser = webdriver.Chrome(service=s)
-
-# path_to_chromedriver = 'D:\work\buff163-parcer-main-2\chromedriver.exe'
-# browser = webdriver.Chrome(executable_path=path_to_chromedriver)
+path_to_chromedriver = 'D:\work\buff163-parcer-main-2\chromedriver.exe'
+browser = webdriver.Chrome(executable_path=path_to_chromedriver)
 
 browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=1')
 
@@ -23,9 +19,11 @@ links = []
 for i in range(1, 21):
     item = browser.find_element(By.CLASS_NAME, 'market-card > div > ul > li:nth-child(' + str(i) + ') > h3 > a')
     links.append(item.get_attribute('href'))
+browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
 
 for i in links:
-    browser.execute_script('window.open("' + i + '")')
+    path_to_chromedriver = 'D:\work\buff163-parcer-main-2\chromedriver.exe'
+    browser = webdriver.Chrome(executable_path=path_to_chromedriver)
 
     browser.get(i)
 
@@ -36,20 +34,22 @@ for i in links:
     steamPriceStrRemoved = steamPriceStrRemoveLastOne[3:]
     steamPrice = float(steamPriceStrRemoved)
 
-    itemPriceStr = browser.find_element(By.CLASS_NAME, 'list_tb_csgo > tr:nth-child(2) > td:nth-child(5)').text
-    itemPriceStrRemoved = itemPriceStr[2:]
-    itemPrice = round(converter.convert(float(itemPriceStrRemoved), 'CNY', 'USD'), 2)
+    if steamPrice < 200.00:
+        itemPriceStr = browser.find_element(By.CLASS_NAME, 'list_tb_csgo > tr:nth-child(2) > td:nth-child(5)').text
+        itemPriceStrRemoved = itemPriceStr[2:]
+        itemPrice = round(converter.convert(float(itemPriceStrRemoved), 'CNY', 'USD'), 2)
 
-    finalPercentage = round(((steamPrice - steamPrice / 100 * 15) * 100 / itemPrice) - 100, 2)
+        finalPercentage = round(((steamPrice - steamPrice / 100 * 15) * 100 / itemPrice) - 100, 2)
 
-    steamPricePrepared = str(steamPrice).replace(".", ",")
-    itemPricePrepared = str(itemPrice).replace(".", ",")
-    finalPercentagePrepared = str(finalPercentage).replace(".", ",")
+        steamPricePrepared = str(steamPrice).replace(".", ",")
+        itemPricePrepared = str(itemPrice).replace(".", ",")
+        finalPercentagePrepared = str(finalPercentage).replace(".", ",")
 
-    with open(r'oxis.csv', 'a') as file:
-        file.write(
-            itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + i + '\n')
+        with open(r'oxis.csv', 'a') as file:
+            file.write(itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + i + '\n')
+    else:
+        pass
 
-    # browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
+    browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
 
 browser.close()
