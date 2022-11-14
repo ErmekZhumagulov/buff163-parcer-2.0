@@ -7,11 +7,15 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMessageBox, QWidget, QTextEdit
 import time
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
 
 converter = CurrencyConverter()
 
-path_to_chromedriver = 'D:\work\buff163-parcer-main-2\chromedriver.exe'
-browser = webdriver.Chrome(executable_path=path_to_chromedriver)
+s = Service('D:\work\buff163-parcer-main-2\chromedriver.exe')
+browser = webdriver.Chrome(service=s)
+
+# path_to_chromedriver = 'D:\work\buff163-parcer-main-2\chromedriver.exe'
+# browser = webdriver.Chrome(executable_path=path_to_chromedriver)
 
 browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=1')
 
@@ -19,11 +23,9 @@ links = []
 for i in range(1, 21):
     item = browser.find_element(By.CLASS_NAME, 'market-card > div > ul > li:nth-child(' + str(i) + ') > h3 > a')
     links.append(item.get_attribute('href'))
-browser.close()
 
 for i in links:
-    path_to_chromedriver = 'D:\work\buff163-parcer-main-2\chromedriver.exe'
-    browser = webdriver.Chrome(executable_path=path_to_chromedriver)
+    browser.execute_script('window.open("' + i + '")')
 
     browser.get(i)
 
@@ -48,6 +50,6 @@ for i in links:
         file.write(
             itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + i + '\n')
 
-    browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
+    # browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
 
 browser.close()
