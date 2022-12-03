@@ -9,17 +9,20 @@ from PyQt6.QtWidgets import QApplication, QFileDialog, QMessageBox, QWidget, QTe
 import time
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 
 converter = CurrencyConverter()
 
+opt = Options()
+opt.add_experimental_option("debuggerAddress", "localhost:8989")
 path_to_chromedriver = 'D:\work\buff163-parcer-2\chromedriver.exe'
-browser = webdriver.Chrome(executable_path = path_to_chromedriver)
+browser = webdriver.Chrome(executable_path = path_to_chromedriver, options = opt)
 
-browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=1')
+browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=1&category_group=sticker')
 
 links = []
 for i in range(1, 21):
-    item = browser.find_element(By.CLASS_NAME, 'market-card > div > ul > li:nth-child(' + str(i) + ') > h3 > a')
+    item = browser.find_element(By.CSS_SELECTOR, '.card_csgo > li:nth-child(' + str(i) + ') > a')
     links.append(item.get_attribute('href'))
 
 for i in links:
