@@ -10,6 +10,8 @@ import time
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import urllib.request
 
 converter = CurrencyConverter()
 
@@ -18,11 +20,15 @@ opt.add_experimental_option("debuggerAddress", "localhost:8989")
 path_to_chromedriver = 'D:\work\buff163-parcer-2\chromedriver.exe'
 browser = webdriver.Chrome(executable_path = path_to_chromedriver, options = opt)
 
-browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=1&category_group=sticker')
+browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=1&category_group=sticker&min_price=1&max_price=4')
+
+# delay
+html_page = urllib.request.urlopen('https://google.com')
+soup = BeautifulSoup(html_page, 'html.parser')
 
 links = []
 for i in range(1, 21):
-    item = browser.find_element(By.CSS_SELECTOR, '.card_csgo > li:nth-child(' + str(i) + ') > a')
+    item = browser.find_element(By.CLASS_NAME, 'card_csgo > li:nth-child(' + str(i) + ') > a')
     links.append(item.get_attribute('href'))
 
 for i in links:
