@@ -15,67 +15,73 @@ import urllib.request
 
 converter = CurrencyConverter()
 
-opt = Options()
-opt.add_experimental_option("debuggerAddress", "localhost:8989")
-path_to_chromedriver = 'D:\work\buff163-parcer-2\chromedriver.exe'
-browser = webdriver.Chrome(executable_path = path_to_chromedriver, options = opt)
+# you can edit these next 3 row code
+pricefrom = 1
+priceto = 4
+for j in range(1, 5):
+    opt = Options()
+    opt.add_experimental_option("debuggerAddress", "localhost:8989")
+    path_to_chromedriver = 'D:\work\buff163-parcer-2\chromedriver.exe'
+    browser = webdriver.Chrome(executable_path=path_to_chromedriver, options=opt)
 
-browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=1&category_group=sticker&min_price=1&max_price=4')
+    browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=' + str(j) + '&category_group=sticker&min_price=' + str(pricefrom) + '&max_price='  + str(priceto))
 
-# delay
-html_page = urllib.request.urlopen('https://google.com')
-soup = BeautifulSoup(html_page, 'html.parser')
+    browser.refresh()
 
-links = []
-for i in range(1, 21):
-    item = browser.find_element(By.CLASS_NAME, 'card_csgo > li:nth-child(' + str(i) + ') > a')
-    links.append(item.get_attribute('href'))
+    # delay
+    html_page = urllib.request.urlopen('https://google.com')
+    soup = BeautifulSoup(html_page, 'html.parser')
 
-for i in links:
-    browser = webdriver.Chrome(executable_path = path_to_chromedriver)
+    links = []
+    for i in range(1, 21):
+        item = browser.find_element(By.CLASS_NAME, 'card_csgo > li:nth-child(' + str(i) + ') > a')
+        links.append(item.get_attribute('href'))
 
-    browser.get(i)
+    for i in links:
+        browser = webdriver.Chrome(executable_path = path_to_chromedriver)
 
-    itemName = browser.find_element(By.CLASS_NAME, 'detail-cont > div:nth-child(1) > h1').text
+        browser.get(i)
 
-    try:
-        steamPriceStr = browser.find_element(By.CLASS_NAME, 'hide-usd').text
-        steamPriceStrRemoveLastOne = steamPriceStr[:-1]
-        steamPriceStrRemoved = steamPriceStrRemoveLastOne[3:]
-        steamPrice = float(steamPriceStrRemoved)
+        itemName = browser.find_element(By.CLASS_NAME, 'detail-cont > div:nth-child(1) > h1').text
 
-        if steamPrice < 700.00:
-            itemPriceStr = browser.find_element(By.CLASS_NAME, 'list_tb_csgo > tr:nth-child(2) > td:nth-child(5)').text
-            itemPriceStrRemoved = itemPriceStr[2:]
-            itemPrice = round(converter.convert(float(itemPriceStrRemoved), 'CNY', 'USD'), 2)
+        try:
+            steamPriceStr = browser.find_element(By.CLASS_NAME, 'hide-usd').text
+            steamPriceStrRemoveLastOne = steamPriceStr[:-1]
+            steamPriceStrRemoved = steamPriceStrRemoveLastOne[3:]
+            steamPrice = float(steamPriceStrRemoved)
 
-            finalPercentage = round(((steamPrice - steamPrice / 100 * 15) * 100 / itemPrice) - 100, 2)
-            finalPercentageStB = round(((itemPrice - itemPrice / 100 * 2.5) * 100 / steamPrice) - 100, 2)
+            if steamPrice < 700.00:
+                itemPriceStr = browser.find_element(By.CLASS_NAME, 'list_tb_csgo > tr:nth-child(2) > td:nth-child(5)').text
+                itemPriceStrRemoved = itemPriceStr[2:]
+                itemPrice = round(converter.convert(float(itemPriceStrRemoved), 'CNY', 'USD'), 2)
 
-            steamPricePrepared = str(steamPrice).replace(".", ",")
-            itemPricePrepared = str(itemPrice).replace(".", ",")
-            finalPercentagePrepared = str(finalPercentage).replace(".", ",")
-            finalPercentageStBPrepared = str(finalPercentageStB).replace(".", ",")
+                finalPercentage = round(((steamPrice - steamPrice / 100 * 15) * 100 / itemPrice) - 100, 2)
+                finalPercentageStB = round(((itemPrice - itemPrice / 100 * 2.5) * 100 / steamPrice) - 100, 2)
 
-            timePrepared = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                steamPricePrepared = str(steamPrice).replace(".", ",")
+                itemPricePrepared = str(itemPrice).replace(".", ",")
+                finalPercentagePrepared = str(finalPercentage).replace(".", ",")
+                finalPercentageStBPrepared = str(finalPercentageStB).replace(".", ",")
 
-            file_exists = os.path.isfile('oxis.csv')
+                timePrepared = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-            with open(r'oxis.csv', 'a') as file:
-                headers = ['time', 'item', 'steam price, $', 'buff163 price, $', 'b>s income, %', 's>b income, %', 'link']
-                writer = csv.DictWriter(file, delimiter=';', lineterminator='\n', fieldnames=headers)
-                if not file_exists:
-                    writer.writeheader()
+                file_exists = os.path.isfile('oxis.csv')
 
-                try:
-                    file.write(timePrepared + ';' + itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + finalPercentageStBPrepared + ';' + i + '\n')
-                except UnicodeEncodeError:
-                    print('codec error')
-        else:
-            pass
-    except NoSuchElementException:
-        print('Element does not exist')
+                with open(r'oxis.csv', 'a') as file:
+                    headers = ['time', 'item', 'steam price, $', 'buff163 price, $', 'b>s income, %', 's>b income, %', 'link']
+                    writer = csv.DictWriter(file, delimiter=';', lineterminator='\n', fieldnames=headers)
+                    if not file_exists:
+                        writer.writeheader()
 
-    browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
+                    try:
+                        file.write(timePrepared + ';' + itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + finalPercentageStBPrepared + ';' + i + '\n')
+                    except UnicodeEncodeError:
+                        print('codec error')
+            else:
+                pass
+        except NoSuchElementException:
+            print('Element does not exist')
 
-browser.close()
+        browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
+
+    browser.close()
