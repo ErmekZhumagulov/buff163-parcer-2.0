@@ -15,16 +15,18 @@ import urllib.request
 
 converter = CurrencyConverter()
 
-# you can edit these next 3 row code
+# you can edit these next 4 row code
 pricefrom = 1
-priceto = 4
-for j in range(1, 5):
+pricetill = 5
+pagesToParce = 5
+categoryGroup = 'sticker'
+for j in range(pagesToParce, 0, -1):
     opt = Options()
     opt.add_experimental_option("debuggerAddress", "localhost:8989")
-    path_to_chromedriver = 'D:\work\buff163-parcer-2\chromedriver.exe'
+    path_to_chromedriver = 'chromedriver.exe'
     browser = webdriver.Chrome(executable_path=path_to_chromedriver, options=opt)
 
-    browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=' + str(j) + '&category_group=sticker&min_price=' + str(pricefrom) + '&max_price='  + str(priceto))
+    browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=' + str(j) + '&category_group=' + categoryGroup + '&min_price=' + str(pricefrom) + '&max_price='  + str(pricetill))
 
     browser.refresh()
 
@@ -65,7 +67,7 @@ for j in range(1, 5):
 
                 timePrepared = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-                file_exists = os.path.isfile('oxis.csv')
+                file_exists = os.path.isfile('parced-data.csv')
 
                 with open(r'oxis.csv', 'a') as file:
                     headers = ['time', 'item', 'steam price, $', 'buff163 price, $', 'b>s income, %', 's>b income, %', 'link']
@@ -84,4 +86,4 @@ for j in range(1, 5):
 
         browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
 
-    browser.close()
+    # browser.close()
