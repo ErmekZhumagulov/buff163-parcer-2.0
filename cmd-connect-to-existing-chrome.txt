@@ -1,3 +1,0 @@
-cd C:\Program Files\Google\Chrome\Application
-
-chrome.exe --remote-debugging-port=8989 --user-data-dir="D:\work\buff163-parcer-2\AutomationProfile"
