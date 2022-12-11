@@ -111,11 +111,11 @@ def categoryGroupAll():
                         try:
                             file.write(timePrepared + ';' + itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + finalPercentageStBPrepared + ';' + i + '\n')
                         except UnicodeEncodeError:
-                            errors('Codec error')
+                            pass
                 else:
                     pass
             except NoSuchElementException:
-                errors('Element does not exist')
+                pass
 
             browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
         # browser.close()
@@ -189,11 +189,11 @@ def categoryGroupStickers():
                         try:
                             file.write(timePrepared + ';' + itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + finalPercentageStBPrepared + ';' + i + '\n')
                         except UnicodeEncodeError:
-                            errors('Codec error')
+                            pass
                 else:
                     pass
             except NoSuchElementException:
-                errors('Element does not exist')
+                pass
 
             browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
         # browser.close()
@@ -267,11 +267,11 @@ def categoryGroupOther():
                         try:
                             file.write(timePrepared + ';' + itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + finalPercentageStBPrepared + ';' + i + '\n')
                         except UnicodeEncodeError:
-                            errors('Codec error')
+                            pass
                 else:
                     pass
             except NoSuchElementException:
-                errors('Element does not exist')
+                pass
 
             browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
         # browser.close()
@@ -342,11 +342,11 @@ def specificLink():
                     try:
                         file.write(timePrepared + ';' + itemName + ';' + steamPricePrepared + ';' + itemPricePrepared + ';' + finalPercentagePrepared + ';' + finalPercentageStBPrepared + ';' + i + '\n')
                     except UnicodeEncodeError:
-                        errors('Codec error')
+                        pass
             else:
                 pass
         except NoSuchElementException:
-            errors('Element does not exist')
+            pass
 
         browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
     # browser.close()
