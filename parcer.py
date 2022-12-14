@@ -62,11 +62,10 @@ def main():
                     pass
 
             browser = webdriver.Chrome(executable_path=path_to_chromedriver)
-            browser.get(links[0])
 
-            for i in links[1:20]:
-                time.sleep(3)
-                browser.execute_script("window.open(" + "'" + i + "'" + ")")
+            for i in links:
+                browser.get(i)
+                time.sleep(2)
 
                 itemName = browser.find_element(By.CLASS_NAME, 'detail-cont > div:nth-child(1) > h1').text
 
