@@ -264,6 +264,7 @@ def specificLink():
     try:
         browser.get(form.textEdit_link.toPlainText())
         browser.refresh()
+        time.sleep(3)
     except:
         errors('Wrong link')
 
