@@ -5,6 +5,9 @@ Downloads needed:
 Troubleshooting:
 	run code in VS Code to see the errors,
 	download that version of chromedrive that chrome version do you use
+auto py to exe:
+	download it from github
+	additional files -> add folder (C:\Users\epicm\AppData\Local\Programs\Python\Python310\Lib\site-packages\currency_converter)
 
 1) open cmd and write:
 	cd C:\Program Files\Google\Chrome\Application
