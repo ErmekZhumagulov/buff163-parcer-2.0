@@ -4,7 +4,7 @@ Before using parcer do this:
 		py -m pip install CurrencyConverter
 		py -m pip install PyQt6
 	Troubleshooting:
-		run code in VS Code to see the errors,
+		run code in VS Code to see the errors (to see what version of chromedrive do you need)
 		download that version of chromedrive that chrome version do you use
 	auto py to exe:
 		download it from github
