@@ -1,8 +1,16 @@
+Downloads needed:
+	py -m pip install selenium
+	py -m pip install CurrencyConverter
+	py -m pip install PyQt6
+Troubleshooting:
+	run code in VS Code to see the errors,
+	download that version of chromedrive that chrome version do you use
+
 1) open cmd and write:
 	cd C:\Program Files\Google\Chrome\Application
 	(it is path to installed google chrome in your pc)
 2) then:
-	chrome.exe --remote-debugging-port=8989 --user-data-dir="D:\work\buff163-parcer-2\AutomationProfile"
+	chrome.exe --remote-debugging-port=8989 --user-data-dir="E:\working-folder\buff163-parcer-2\AutomationProfile"
 	(change path to yours, where is your downloaded folder,
 	for ex.: "D:\work\buff163-parcer-2\" and + name of folder which will be created(name you choose yourself))
 3) in opened browser login buff163

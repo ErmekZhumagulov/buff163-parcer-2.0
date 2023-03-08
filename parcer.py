@@ -9,6 +9,7 @@ from PyQt6.QtWidgets import QApplication, QMessageBox
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 import time
+from selenium.webdriver.chrome.service import Service
 
 Form, Window = uic.loadUiType("ui.ui")
 
@@ -43,10 +44,14 @@ def categoryGroupAll():
     pagesToParce = form.textEdit_PagesToParce.toPlainText()
 
     for j in range(int(pagesToParce), 0, -1):
+        # opt = Options()
+        # opt.add_experimental_option("debuggerAddress", "localhost:8989")
+        # path_to_chromedriver = 'chromedriver.exe'
+        # browser = webdriver.Chrome(executable_path=path_to_chromedriver, options=opt)
         opt = Options()
         opt.add_experimental_option("debuggerAddress", "localhost:8989")
-        path_to_chromedriver = 'chromedriver.exe'
-        browser = webdriver.Chrome(executable_path=path_to_chromedriver, options=opt)
+        ser = Service(r"chromedriver.exe")
+        browser = webdriver.Chrome(service=ser, options=opt)
 
         browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=' + str(j) + '&category_group=' + categoryGroup + '&min_price=' + str(pricefrom) + '&max_price=' + str(pricetill))
         browser.refresh()
@@ -60,7 +65,7 @@ def categoryGroupAll():
             except NoSuchElementException:
                 pass
 
-        browser = webdriver.Chrome(executable_path=path_to_chromedriver)
+        browser = webdriver.Chrome(service=ser)
 
         for i in links:
             browser.get(i)
@@ -118,8 +123,8 @@ def categoryGroupStickers():
     for j in range(int(pagesToParce), 0, -1):
         opt = Options()
         opt.add_experimental_option("debuggerAddress", "localhost:8989")
-        path_to_chromedriver = 'chromedriver.exe'
-        browser = webdriver.Chrome(executable_path=path_to_chromedriver, options=opt)
+        ser = Service(r"chromedriver.exe")
+        browser = webdriver.Chrome(service=ser, options=opt)
 
         browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=' + str(j) + '&category_group=' + categoryGroup + '&min_price=' + str(pricefrom) + '&max_price=' + str(pricetill))
         browser.refresh()
@@ -133,7 +138,7 @@ def categoryGroupStickers():
             except NoSuchElementException:
                 pass
 
-        browser = webdriver.Chrome(executable_path=path_to_chromedriver)
+        browser = webdriver.Chrome(service=ser)
 
         for i in links:
             browser.get(i)
@@ -191,8 +196,8 @@ def categoryGroupOther():
     for j in range(int(pagesToParce), 0, -1):
         opt = Options()
         opt.add_experimental_option("debuggerAddress", "localhost:8989")
-        path_to_chromedriver = 'chromedriver.exe'
-        browser = webdriver.Chrome(executable_path=path_to_chromedriver, options=opt)
+        ser = Service(r"chromedriver.exe")
+        browser = webdriver.Chrome(service=ser, options=opt)
 
         browser.get('https://buff.163.com/market/csgo#tab=selling&page_num=' + str(j) + '&category_group=' + categoryGroup + '&min_price=' + str(pricefrom) + '&max_price=' + str(pricetill))
         browser.refresh()
@@ -206,7 +211,7 @@ def categoryGroupOther():
             except NoSuchElementException:
                 pass
 
-        browser = webdriver.Chrome(executable_path=path_to_chromedriver)
+        browser = webdriver.Chrome(service=ser)
 
         for i in links:
             browser.get(i)
@@ -258,8 +263,8 @@ def categoryGroupOther():
 def specificLink():
     opt = Options()
     opt.add_experimental_option("debuggerAddress", "localhost:8989")
-    path_to_chromedriver = 'chromedriver.exe'
-    browser = webdriver.Chrome(executable_path=path_to_chromedriver, options=opt)
+    ser = Service(r"chromedriver.exe")
+    browser = webdriver.Chrome(service=ser, options=opt)
 
     try:
         browser.get(form.textEdit_link.toPlainText())
@@ -276,7 +281,7 @@ def specificLink():
         except NoSuchElementException:
             pass
 
-    browser = webdriver.Chrome(executable_path=path_to_chromedriver)
+    browser = webdriver.Chrome(service=ser)
 
     for i in links:
         browser.get(i)
