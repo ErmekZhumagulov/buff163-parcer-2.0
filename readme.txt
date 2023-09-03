@@ -7,8 +7,9 @@ Before using parcer do this:
 		run code in VS Code to see the errors (to see what version of chromedrive do you need)
 		download that version of chromedrive that chrome version do you use
 	(Caution):
-		You need to check your version of google chrome browser. After checking download chromedriver exactly what version of chrome browser you have installed,
-		otherwise it will not work. Download from: https://googlechromelabs.github.io/chrome-for-testing/
+		You need to check your version of google chrome browser. After checking download chromedriver
+		exactly what version of chrome browser you have installed, otherwise it will not work.
+		Download from: https://googlechromelabs.github.io/chrome-for-testing/
 	auto py to exe:
 		download it from github
 		additional files -> add folder (C:\Users\epicm\AppData\Local\Programs\Python\Python310\Lib\site-packages\currency_converter)
